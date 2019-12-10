@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: buildah-build-hellopipe-BUILD_ID
+spec:
+  taskRef:
+    name: buildah
+  inputs:
+    resources:
+    - name: source
+      resourceSpec:
+        type: git
+        params:
+        - name: url
+          value: https://github.com/k8s-fleetman/hellopipe
+  outputs:
+    resources:
+    - name: image
+      resourceSpec:
+        type: image
+        params:
+        - name: url
+          value: coreharbor.eqslearning.com/eqsdemo/docker-java-helloworld-pipeline:BUILD_ID

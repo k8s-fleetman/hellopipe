@@ -1,2 +1,4 @@
-FROM tomcat:8.5.11-jre8
-COPY /target/docker-demo.war /usr/local/tomcat/webapps/docker-demo.war
+FROM tomcat:8.0-alpine
+ADD /target/docker-demo.war /usr/local/tomcat/webapps/
+EXPOSE 8080
+CMD ["catalina.sh", "run"]

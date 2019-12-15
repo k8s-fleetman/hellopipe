@@ -30,15 +30,12 @@ pipeline {
       }
       stage('Build Image') {
          steps {
-           sh 'scp -r ${WORKSPACE} jenkins@${DOCKER_HOST_IP}:/home/jenkins/docker/${BUILD_ID}'
-           sh 'ssh jenkins@${DOCKER_HOST_IP} docker image build -t ${REPOSITORY_TAG} /home/jenkins/docker/${BUILD_ID}'
-           sh 'ssh jenkins@${DOCKER_HOST_IP} docker image ls'
-           sh 'ssh jenkins@${DOCKER_HOST_IP} rm -rf /home/jenkins/docker/${BUILD_ID}'
+           sh 'docker image build -t ${REPOSITORY_TAG} /home/jenkins/docker/${BUILD_ID}'
          }
       }
       stage('Push Image to repo') {
           steps {
-           sh 'ssh jenkins@${DOCKER_HOST_IP} docker push ${REPOSITORY_TAG}'
+           sh 'docker push ${REPOSITORY_TAG}'
           }
       }
    }

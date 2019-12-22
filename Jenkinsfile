@@ -10,9 +10,6 @@ pipeline {
   }
   stages {
     stage('CI Build and push snapshot') {
-      when {
-        branch 'PR-*'
-      }
       environment {
         PREVIEW_VERSION = "0.0.0-SNAPSHOT-$BRANCH_NAME-$BUILD_NUMBER"
         PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
@@ -33,9 +30,6 @@ pipeline {
       }
     }
     stage('Build Release') {
-      when {
-        branch 'master'
-      }
       steps {
         container('maven') {
 
@@ -56,9 +50,6 @@ pipeline {
       }
     }
     stage('Promote to Environments') {
-      when {
-        branch 'master'
-      }
       steps {
         container('maven') {
           dir('charts/jx-actuator') {
@@ -68,7 +59,7 @@ pipeline {
             sh "jx step helm release"
 
             // promote through all 'Auto' promotion Environments
-            sh "jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)"
+            sh "jx promote -b --all-auto --timeout 1h --versio \$(cat ../../VERSION)"
           }
         }
       }
